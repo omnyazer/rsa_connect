@@ -25,8 +25,8 @@ function Header() {
               </button>
             </div>
             <FaBell size={24} className="text-white md:text-lg" />
-            <FaUser size={24} className="text-white md:text-lg" />
             <FaComment size={24} className="text-white md:text-lg" />
+            <FaUser size={24} className="text-white md:text-lg" />
           </div>
         </div>
       </div>
