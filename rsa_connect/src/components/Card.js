@@ -3,11 +3,11 @@ import FavoriteIcon from './FavoriteIcon.svg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShare } from '@fortawesome/free-solid-svg-icons';
 import TitreOffre from './TitreOffre';
-import DescriptionOffre from './DescriptionOffre';
 import EntrepriseOffre from './EntrepriseOffre';
-import Modal from './modal'; // Assurez-vous d'importer correctement le composant Modal
+import Modal from './modal';
+import DescriptionOffre from './DescriptionOffre';
 
-function Card({ offre }) {
+function Card({ offre, onDescriptionChange, onTitleChange, onNameChange }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => {
@@ -18,8 +18,24 @@ function Card({ offre }) {
     setIsModalOpen(false);
   };
 
+  const cardStyle = {
+    maxHeight: 'auto',
+  };
+
+  const handleDescriptionChange = (newDescription) => {
+    onDescriptionChange(newDescription);
+  };
+
+  const handleTitleChange = (newTitle) => {
+    onTitleChange(newTitle);
+  };
+
+  const handleNameChange = (newName) => {
+    onNameChange(newName);
+  };
+
   return (
-    <div className="relative card p-4 border border-gray-300 rounded mb-6 shadow-lg max-w-xs mx-auto h-[41rem]" onClick={openModal}>
+    <div className="relative card p-4 border border-gray-300 rounded mb-6 shadow-lg max-w-xs mx-auto" style={cardStyle} onClick={openModal}>
       <img
         src={FavoriteIcon}
         alt="Favorite Icon"
@@ -27,14 +43,14 @@ function Card({ offre }) {
       />
       <FontAwesomeIcon
         icon={faShare}
-        className="absolute bottom-2 right-2 w-6 h-6 text-gray-500 cursor-pointer"
+        className="absolute bottom-1 right-2 w-6 h-6 text-gray-500 cursor-pointer"
       />
       <div className="mt-6">
-        <TitreOffre titre={offre.titre} />
+        <TitreOffre titre={offre.titre} onTitleChange={handleTitleChange} />
       </div>
-      <DescriptionOffre description={offre.description} />
-      <EntrepriseOffre entreprise={offre.entreprise} />
-      <Modal isOpen={isModalOpen} onClose={closeModal} offre={offre} />
+      <DescriptionOffre description={offre.description} onDescriptionChange={handleDescriptionChange} />
+      <EntrepriseOffre name={offre.name} onNameChange={handleNameChange} />
+      <Modal isOpen={isModalOpen} offre={offre} onClose={closeModal} />
     </div>
   );
 }

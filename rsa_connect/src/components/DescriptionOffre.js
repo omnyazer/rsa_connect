@@ -1,9 +1,16 @@
+// DescriptionOffre.js
 import React from 'react';
+import TextDescriptionInput from './TextDescriptionInput';
 
-function DescriptionOffre({ description }) {
+function DescriptionOffre({ onDescriptionChange }) {
   return (
-    <div className="bg-white p-4 rounded-md shadow-md my-4 text-center">
-      <p className="text-gray-700 mb-2 h-[24rem]">{description}</p>
+    <div className="bg-white p-4 rounded-md shadow-md my-4 text-center min-h-[263px]">
+      <TextDescriptionInput
+        name={null}
+        onDescriptionChange={onDescriptionChange}
+        placeholder="Description de l'offre"
+
+      />
     </div>
   );
 }

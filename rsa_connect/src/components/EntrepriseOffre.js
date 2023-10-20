@@ -1,9 +1,16 @@
+// EntrepriseOffre.js
 import React from 'react';
+import TextDescriptionInput from './TextDescriptionInput';
 
-function EntrepriseOffre({ entreprise }) {
+function EntrepriseOffre({ onNameChange }) {
   return (
-    <div className="bg-white p-4 rounded-md shadow-md my-4 text-center shadow-[#780101]">
-      <p className="text-black font-semibold">{entreprise}</p>
+    <div className="bg-white rounded-md shadow-md my-4 text-center shadow-[#780101] max-h-[263px]">
+      <TextDescriptionInput
+        description={null}
+        onDescriptionChange={onNameChange}
+        placeholder="Nom entreprise"
+
+      />
     </div>
   );
 }
