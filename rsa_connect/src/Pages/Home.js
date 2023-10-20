@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import Header from '../components/Header';
 import Card from '../components/Card';
-import Modal from '../components/modal';
+import NewModal from '../components/modal';
+
 
 function Home() {
   const [offres, setOffres] = useState([
@@ -62,7 +63,7 @@ function Home() {
     ))}
       </div>
       {selectedOffreIndex !== null && (
-        <Modal isOpen={true} offre={offres[selectedOffreIndex]} onClose={() => setSelectedOffreIndex(null)} />
+        <NewModal isOpen={true} offre={offres[selectedOffreIndex]} onClose={() => setSelectedOffreIndex(null)} />
       )}
     </div>
   );
