@@ -30,6 +30,32 @@ function Home() {
       description: "Description de l'offre 4",
       name: "Nom de l'entreprise 4",
     },
+    {
+      id: 5,
+      titre: "Titre de l'offre 5",
+      description: "Description de l'offre 5",
+      name: "Nom de l'entreprise 5",
+    },
+    {
+      id: 6,
+      titre: "Titre de l'offre 6",
+      description: "Description de l'offre 6",
+      name: "Nom de l'entreprise 6",
+    },
+    {
+      id: 7,
+      titre: "Titre de l'offre 7",
+      description: "Description de l'offre 7",
+      name: "Nom de l'entreprise 7",
+    },
+    {
+      id: 8,
+      titre: "Titre de l'offre 8",
+      description: "Description de l'offre 8",
+      name: "Nom de l'entreprise 8",
+    },
+   
+    
   ]);
 
   const [selectedOffreIndex, setSelectedOffreIndex] = useState(null);
@@ -85,37 +111,42 @@ function Home() {
     }
   };
   
-
   return (
-    <div>
-    <Header />
-    <Swiper
-      direction="vertical"
-      slidesPerView={4}
-      spaceBetween={200}
-      mousewheel={true}
-      className="mt-8"
-    >
+    <div className="home-container ">
+      <Header />
+      <Swiper
+  direction="vertical"
+  className="mt-8"
+>
+  <SwiperSlide>
+    <div className="offres-group">
       {offres.map((offre) => (
-        <SwiperSlide key={offre.id}>
-          <Card
-            offre={offre}
-            onDescriptionChange={(newDescription) => updateDescription(offre.id, newDescription)}
-            onTitleChange={(newTitle) => updateTitle(offre.id, newTitle)}
-            onNameChange={(newName) => updateName(offre.id, newName)}
-            onRemove={(id) => removeOffre(id)}
-          />
-        </SwiperSlide>
+        <Card
+          key={offre.id}
+          offre={offre}
+          onDescriptionChange={(newDescription) => updateDescription(offre.id, newDescription)}
+          onTitleChange={(newTitle) => updateTitle(offre.id, newTitle)}
+          onNameChange={(newName) => updateName(offre.id, newName)}
+          onRemove={(id) => removeOffre(id)}
+        />
       ))}
-    </Swiper>
-  
-    <button onClick={handleAddOffre} class="bg-blue-dark hover:bg-blue-500 text-white font-bold py-2 px-4 rounded">Ajouter une offre</button>
-  
-    {selectedOffreIndex !== null && (
-      <NewModal isOpen={true} offre={offres[selectedOffreIndex]} onClose={() => setSelectedOffreIndex(null)} />
-    )}
-  </div>
-  
+    </div>
+  </SwiperSlide>
+</Swiper>
+
+
+      <button
+        onClick={handleAddOffre}
+        className="bg-blue-dark hover:bg-blue-500 text-white font-bold py-2 px-4 rounded mt-4"
+      >
+        Ajouter une offre
+      </button>
+
+
+      {selectedOffreIndex !== null && (
+        <NewModal isOpen={true} offre={offres[selectedOffreIndex]} onClose={() => setSelectedOffreIndex(null)} />
+      )}
+    </div>
   );
 }
 

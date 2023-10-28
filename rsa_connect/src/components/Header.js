@@ -19,9 +19,13 @@ function Header() {
     setCitySelected(false);
   };
 
-  const handleCitySelect = () => {
-    setCitySelected(!citySelected);
+  const handleCitySelect = (e) => {
+    if (e.target.className !== 'select-container' && !e.target.closest('.select-container')) {
+      // Si vous cliquez en dehors du Select, alors inversez la valeur de citySelected
+      setCitySelected(!citySelected);
+    }
   };
+  
 
   const cityOptions = [
     { value: 'paris', label: 'Paris' },
@@ -53,34 +57,33 @@ function Header() {
           <div className="flex items-center space-x-2 w-full md:space-x-2">
             <div className="relative w-full transition-width duration-300">
               {searchExpanded && (
-               <span
-               className={`absolute left-0 top-1/2 transform -translate-y-1/2 w-8 transition-width duration-500 ${
-                 citySelected ? 'w-full' : 'w-8'
-               }`}
-               onClick={handleCitySelect}
-               style={{ backgroundColor: 'red' }}
-             >
-               <img
-                 src={Localisation}
-                 alt="Localisation"
-                 className={`w-8 h-8 text-blue-800 ${citySelected ? 'hidden' : ''}`}
-               />
-               {citySelected && (
-                 <div className="select-container">
-                   <Select
-                     options={cityOptions}
-                     value={selectedCity}
-                     onChange={(selectedOption) => setSelectedCity(selectedOption)}
-                     className={`rounded-md border border-gray-300 bg-white focus:outline-none z-10 w-full ${
-                       citySelected ? 'transition-width duration-500' : ''
-                     }`}
-                     placeholder="ville"
-                     menuPortalTarget={document.body}
-                   />
-                 </div>
-               )}
-             </span>
-             
+                <span
+                  className={`absolute left-0 top-1/2 transform -translate-y-1/2 w-8 transition-width duration-500 ${
+                    citySelected ? 'w-full' : 'w-8'
+                  }`}
+                  onClick={handleCitySelect}
+                  style={{ backgroundColor: 'red' }}
+                >
+                  <img
+                    src={Localisation}
+                    alt="Localisation"
+                    className={`w-8 h-8 text-blue-800 ${citySelected ? 'hidden' : ''}`}
+                  />
+                  {citySelected && (
+                    <div className="select-container">
+                      <Select
+                        options={cityOptions}
+                        value={selectedCity}
+                        onChange={(selectedOption) => setSelectedCity(selectedOption)}
+                        className={`rounded-md border border-gray-300 bg-white focus:outline-none z-10 w-full ${
+                          citySelected ? 'transition-width duration-500' : ''
+                        }`}
+                        placeholder="ville"
+                        menuPortalTarget={document.body}
+                      />
+                    </div>
+                )  }
+                </span>
               )}
               <input
                 type="text"
@@ -116,7 +119,7 @@ function Header() {
                     <img src={notification} alt="Notification" className="w-8 h-8 text-white md:text-lg" />
                     <img src={Profil} alt="Profil" className="w-8 h-8 text-white md:text-lg" />
                   </>
-                )}
+             ) }
               </div>
             )}
           </div>
