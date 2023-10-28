@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShare } from '@fortawesome/free-solid-svg-icons';
 import TitreOffre from './TitreOffre';
 import EntrepriseOffre from './EntrepriseOffre';
-import NewModal from './modal'; // Assurez-vous d'utiliser le bon chemin d'importation
+import NewModal from './modal'; 
 import DescriptionOffre from './DescriptionOffre';
 
 function Card({ offre, onDescriptionChange, onTitleChange, onNameChange }) {
@@ -35,8 +35,7 @@ function Card({ offre, onDescriptionChange, onTitleChange, onNameChange }) {
   };
 
   return (
-    <div className="relative card p-4 border border-gray-300 rounded mb-6 shadow-lg max-w-xs mx-auto" style={cardStyle}>
-      <img
+<div className="relative card p-4 border border-gray-300 rounded mb-6 shadow-sm max-w-xs mx-auto" style={cardStyle}>      <img
         src={FavoriteIcon}
         alt="Favorite Icon"
         className="absolute top-2 right-2 w-6 h-6 text-red-500"

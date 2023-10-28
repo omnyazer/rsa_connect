@@ -16,16 +16,16 @@ function TextDescriptionInput({ description, onDescriptionChange, title, onTitle
       onNameChange(newText);
     }
 
-
     e.target.style.height = e.target.scrollHeight + 'px';
+    e.target.style.overflow = 'hidden';
 
     setText(newText);
   };
 
   return (
-    <div>
+    <div style={{ overflow: 'hidden' }}>
       <textarea
-        className="w-full resize-none h-8 max-h-[263px] border border-transparent rounded-md p-2"
+        className="w-full resize-none h-8 max-h-[263px] border-transparent rounded-md "
         value={text}
         onChange={handleInputChange}
         placeholder={placeholder}
