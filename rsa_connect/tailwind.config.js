@@ -4,9 +4,20 @@ module.exports = {
   theme: {
     extend: {
       backgroundColor: {
-        'blue-dark': '#000091', 
+        'blue-dark': '#000091',
+      },
+      screens: {
+        'desktop': '1024px', // Ajoutez une nouvelle taille d'écran pour la version de bureau
+      },
+    },
+    // Ajoutez une classe personnalisée pour positionner à droite en version ordinateur
+    customUtilities: {
+      '.modal-right-desktop': {
+        '@screen desktop': {
+          right: '0',
+        },
       },
     },
   },
   plugins: [],
-}
+};

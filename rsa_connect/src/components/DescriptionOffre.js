@@ -3,7 +3,7 @@ import TextDescriptionInput from './TextDescriptionInput';
 
 function DescriptionOffre({ onDescriptionChange, onClick }) {
   return (
-    <div className="bg-white p-4 rounded-md shadow-md my-4 text-center min-h-[263px]" onClick={onClick}>
+    <div className="bg-white p-10 rounded-md shadow-md my-4 text-center min-h-[50vh] md:min-h-[20vh]" onClick={onClick}>
       <TextDescriptionInput
         name={null}
         onDescriptionChange={onDescriptionChange}
