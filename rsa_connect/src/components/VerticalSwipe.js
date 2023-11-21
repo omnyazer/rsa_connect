@@ -1,19 +1,54 @@
-// VerticalSwipe.js
-
 import React, { useState } from 'react';
 import Card from './Card';
 
 function VerticalSwipe({ data, updateDescription, updateTitle, updateName, selectOffre, isDesktopView }) {
+  const [startY, setStartY] = useState(null);
+  const [isSwiping, setIsSwiping] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const handleSwipe = (direction) => {
-    const nextIndex = direction === 'up' ? currentIndex + 1 : currentIndex - 1;
+  const handleSwipeStart = (event) => {
+    setStartY(event.clientY);
+    setIsSwiping(true);
+  };
+
+  const handleSwipeMove = (event) => {
+    if (!isSwiping) return;
+  
+    const deltaY = event.clientY - startY;
+    const direction = deltaY > 0 ? 'down' : 'up';
+    const distance = Math.abs(deltaY);
+    const dampingFactor = 0.02; 
+    const minDistanceThreshold = 5; // Adjust this threshold according to your preference
+  
+    if (distance < minDistanceThreshold) return;
+  
+    const nextIndex =
+      direction === 'up'
+        ? currentIndex + Math.floor(distance * dampingFactor)
+        : currentIndex - Math.floor(distance * dampingFactor);
+  
     setCurrentIndex(Math.max(0, Math.min(nextIndex, data.length - 1)));
+    setStartY(event.clientY);
+  };
+  
+  
+  
+
+  const handleSwipeEnd = () => {
+    setIsSwiping(false);
   };
 
   return (
-    <div className="relative h-screen overflow-hidden mt-8">
-      {/* Ajoutez la classe "mt-8" pour une marge en haut */}
+    <div
+      className="relative h-screen overflow-hidden mt-8"
+      onMouseMove={(event) => {
+        handleSwipeStart(event);
+        handleSwipeMove(event);
+      }}
+      
+      onMouseUp={handleSwipeEnd}
+      onMouseLeave={handleSwipeEnd}
+    >
       <div className="flex flex-col h-full transition-transform duration-300 ease-in-out transform" style={{ transform: `translateY(-${currentIndex * 100}%)` }}>
         {data.map((item, index) => (
           <div key={index} className="flex items-center justify-center h-screen mb-">
@@ -28,22 +63,6 @@ function VerticalSwipe({ data, updateDescription, updateTitle, updateName, selec
           </div>
         ))}
       </div>
-
-      {/* Add buttons for vertical swipe */}
-      <button
-        className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white px-4 py-2 rounded-full cursor-pointer"
-        onClick={() => handleSwipe('up')}
-        disabled={currentIndex === data.length - 1}
-      >
-        Swipe Up
-      </button>
-      <button
-        className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white px-4 py-2 rounded-full cursor-pointer"
-        onClick={() => handleSwipe('down')}
-        disabled={currentIndex === 0}
-      >
-        Swipe Down
-      </button>
     </div>
   );
 }

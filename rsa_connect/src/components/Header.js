@@ -8,6 +8,7 @@ import Search from './Search.svg';
 import notification from './notification.svg';
 import Localisation from './localisation.svg';
 import Chat from './chat.svg';
+import LogoMobileSVG from '../assets/logomobile.svg';  
 
 function Header() {
   const [citySelected, setCitySelected] = useState(false);
@@ -16,6 +17,7 @@ function Header() {
   const [searchQuery2, setSearchQuery2] = useState('');
   const [isLocationInputActive, setIsLocationInputActive] = useState(false);
   const [isSearchButtonClicked, setIsSearchButtonClicked] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 768);
 
   const locationInputRef = useRef(null);
 
@@ -50,46 +52,55 @@ function Header() {
   const isMobile = window.innerWidth <= 768;
 
   return (
-    <header className="bg-white p-2 md:p-1 rounded-md flex flex-col md:flex-row items-center">
+    <header className="bg-white p-2 md:p-1 rounded-md flex flex-col md:flex-row items-center ">
       <div className="w-full flex md:flex-row items-center justify-between">
         <div className="flex items-center space-x-4">
-          <img src={LogoSVG} alt="Logo" className="w-20 h-12 rounded-md" />
+          <div className="mr-4">
+          <img
+              src={isMobile ? LogoMobileSVG : LogoSVG}
+              alt="Logo"
+              className={`w-20 h-12 md:w-${isDesktop ? '32' : '20'} md:h-${isDesktop ? '32' : '12'} rounded-md`}
+            />
+          </div>
+        
         </div>
-        <div className={`bg-blue-dark rounded-md p-2 w-full flex flex-col md:flex-row items-center justify-between`}>
+        <div className={`bg-blue-dark rounded-md p-2 w-full md:w-11/12 md:flex md:flex-row items-center justify-between`}>
           <div className="flex items-center space-x-2 w-full md:space-x-2">
             <div className="relative w-full transition-width duration-300">
-              <span
-                className={`absolute left-0 top-1/2 transform -translate-y-1/2 w-8 transition-width duration-500`}
-                onClick={handleCitySelect}
-                style={{ width: citySelected ? '100%' : '4rem' }}
-              >
+            <span
+              className={`absolute left-0 top-1/2 transform -translate-y-1/2 w-8 transition-width duration-500`}
+              onClick={handleCitySelect}
+              style={{ width: citySelected ? '100%' : '4rem' }}
+            >
+              {isMobile && (
                 <img
                   src={Localisation}
                   alt="Localisation"
                   className={`w-8 h-8 text-blue-800 ${citySelected ? 'hidden' : ''}`}
                 />
-                {citySelected && (
-                  <div className="select-container">
-                    <Select
-                      options={cityOptions}
-                      value={selectedCity}
-                      onChange={handleCityChange}
-                      onClick={handleSelectClick}
-                      className={`rounded-md border border-gray-300 bg-white focus:outline-none z-10 w-full`}
-                      placeholder="ville"
-                      menuPosition={(state) => ({ ...state, top: locationInputRef.current.offsetHeight + 8, left: 0 })}
-                    />
-                  </div>
-                )}
-              </span>
+              )}
+              {citySelected && (
+                <div className="select-container">
+                  <Select
+                    options={cityOptions}
+                    value={selectedCity}
+                    onChange={handleCityChange}
+                    onClick={handleSelectClick}
+                    className={`rounded-md border border-gray-300 bg-white focus:outline-none z-10 w-full`}
+                    placeholder="ville"
+                    menuPosition={(state) => ({ ...state, top: locationInputRef.current.offsetHeight + 8, left: 0 })}
+                  />
+                </div>
+              )}
+                </span>
               <div className="flex space-x-2">
-                <input
-                  type="text"
-                  placeholder="Rechercher..."
-                  className={`w-full p-2 pr-6 pl-8 rounded-md border border-gray-300 bg-white focus:outline-none placeholder-pr-2`}
-                  value={searchQuery1}
-                  onChange={(e) => setSearchQuery1(e.target.value)}
-                />
+              <input
+                type="text"
+                placeholder={isMobile ? " Rechercher..." : "Rechercher..."}
+                className={`w-full p-2 pr-6 pl-${isMobile ? '8' : '2'} rounded-md border border-gray-300 bg-white focus:outline-none placeholder-pr-2`}
+                value={searchQuery1}
+                onChange={(e) => setSearchQuery1(e.target.value)}
+              />
                 {isMobile && (
                   <button
                     className="bg-blue-dark text-white rounded-md p-2 pl-4 pr-4 flex items-center"
@@ -101,9 +112,8 @@ function Header() {
                 {isMobile || (
                   <div className="relative w-full">
                     <button
-                      className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-dark text-white rounded-md p-2 pl-4 pr-4 flex items-center"
+                      className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-dark text-white rounded-md p-1.5 pl-3 pr-4 flex items-center z-20"
                       onClick={() => {
-                        // Gérez l'action de recherche ici pour la version de bureau
                       }}
                     >
                       Recherchez&nbsp;&nbsp;&nbsp;<FontAwesomeIcon icon={faSearch} />
@@ -132,9 +142,11 @@ function Header() {
                             onClick={handleLocationInputClick}
                             ref={locationInputRef}
                           />
-                          {/* Bouton Rechercher à l'intérieur de l'input */}
+                          <div className="absolute left-28 top-1/2 transform -translate-y-1/2 text-gray-400">
+                            <img src={Localisation} alt="Localisation" className="w-8 h-8" />
+                          </div>
                           <button
-                            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-dark text-white rounded-md p-2 pl-4 pr-4 flex items-center"
+                            className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-dark text-white rounded-md p-1.5 pl-4 pr-4 flex items-center"
                             onClick={handleSearchButtonClick}
                           >
                             Rechercher&nbsp;&nbsp;&nbsp;<FontAwesomeIcon icon={faSearch} />

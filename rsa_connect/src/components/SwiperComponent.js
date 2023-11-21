@@ -1,9 +1,7 @@
 import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
-
-// Importez votre composant Card ou tout autre composant utilisé
-import Card from './Card'; // Assurez-vous de spécifier le chemin correct
+import Card from './Card';
 
 export default function SwiperComponent({ offres, updateDescription, updateTitle, updateName, removeOffre }) {
   return (

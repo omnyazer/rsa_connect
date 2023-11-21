@@ -1,64 +1,62 @@
 import React, { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import Header from '../components/Header';
-import Card from '../components/Card';
-import DesktopModal from '../components/Desktopmodal'; // Assurez-vous que le chemin d'importation est correct
 import VerticalSwipe from '../components/VerticalSwipe';
-
+import DesktopModal from '../components/DesktopModal';
 
 function Home() {
   const [offres, setOffres] = useState([
     {
-      id: 1,
+      id: 0,
       titre: "Titre de l'offre 1",
       description: "Description de l'offre 1",
       name: "Nom de l'entreprise 1",
       lienDeLoffre: "https://www.liendeloffre1.com",
     },
     {
-      id: 2,
+      id: 1,
       titre: "Titre de l'offre 2",
       description: "Description de l'offre 2",
       name: "Nom de l'entreprise 2",
       lienDeLoffre: "https://www.liendeloffre2.com",
     },
     {
-      id: 3,
+      id: 2,
       titre: "Titre de l'offre 3",
       description: "Description de l'offre 3",
       name: "Nom de l'entreprise 3",
       lienDeLoffre: "https://www.liendeloffre3.com",
     },
     {
-      id: 4,
+      id: 3,
       titre: "Titre de l'offre 4",
       description: "Description de l'offre 4",
       name: "Nom de l'entreprise 4",
       lienDeLoffre: "https://www.liendeloffre4.com",
     },
     {
-      id: 5,
+      id: 4,
       titre: "Titre de l'offre 5",
       description: "Description de l'offre 5",
       name: "Nom de l'entreprise 5",
       lienDeLoffre: "https://www.liendeloffre5.com",
     },
     {
-      id: 6,
+      id: 5,
       titre: "Titre de l'offre 6",
       description: "Description de l'offre 6",
       name: "Nom de l'entreprise 6",
       lienDeLoffre: "https://www.liendeloffre6.com",
     },
     {
-      id: 7,
+      id: 6,
       titre: "Titre de l'offre 7",
       description: "Description de l'offre 7",
       name: "Nom de l'entreprise 7",
       lienDeLoffre: "https://www.liendeloffre7.com",
     },
     {
-      id: 8,
+      id: 7,
       titre: "Titre de l'offre 8",
       description: "Description de l'offre 8",
       name: "Nom de l'entreprise 8",
@@ -68,6 +66,23 @@ function Home() {
 
   const [selectedOffreIndex, setSelectedOffreIndex] = useState(null);
   const [isDesktopView, setIsDesktopView] = useState(false);
+  const [showDesktopModal, setShowDesktopModal] = useState(true);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktopView(window.innerWidth > 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    // Mettez à jour selectedOffreIndex pour afficher la première offre par défaut
+    setSelectedOffreIndex(offres.length > 0 ? offres[0].id : null);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [offres]);
 
   const updateDescription = (id, newDescription) => {
     const updatedOffres = [...offres];
@@ -94,10 +109,10 @@ function Home() {
     setSelectedOffreIndex(index);
   };
 
-  function removeOffre(id) {
+  const removeOffre = (id) => {
     const updatedOffres = offres.filter((offre) => offre.id !== id);
     setOffres(updatedOffres);
-  }
+  };
 
   const handleAddOffre = async () => {
     console.log("Ajout d'une nouvelle offre");
@@ -121,26 +136,17 @@ function Home() {
     }
   };
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsDesktopView(window.innerWidth > 768);
-    };
-
-    window.addEventListener('resize', handleResize);
-    handleResize();
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+  const handleOpenDesktopModal = (offre) => {
+    // Utilisez l'ID de l'offre directement
+    setSelectedOffreIndex(offre.id);
+    setShowDesktopModal(true);
+  };
+  
 
   return (
     <div className="home-container">
       <Header />
-
-      {/* Use Tailwind CSS classes for the right background on the body or a wrapper div */}
       <div className="flex">
-        {/* Left side content */}
         <div className="w-full md:w-1/2">
           <VerticalSwipe
             data={offres}
@@ -152,18 +158,17 @@ function Home() {
           />
         </div>
 
-        {/* Right side content with blue background - render only on desktop */}
         {isDesktopView && (
-          <div className="bg-blue-500 w-1/2">
-            {/* Add any content you want on the right side */}
+          <div className="w-1/2 border-l-2  border-blue-900">
+            {showDesktopModal && (
+              <DesktopModal
+                offre={offres.find((o) => o.id === selectedOffreIndex)}
+                onClose={() => setShowDesktopModal(false)}
+              />
+            )}
           </div>
         )}
       </div>
-
-      {/* DesktopModal component */}
-      {selectedOffreIndex !== null && isDesktopView && (
-        <DesktopModal isOpen={true} offre={offres[selectedOffreIndex]} onClose={() => setSelectedOffreIndex(null)} />
-      )}
     </div>
   );
 }

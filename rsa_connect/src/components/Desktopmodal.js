@@ -1,68 +1,56 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React from 'react';
 
-function DesktopModal({ isOpen, offre, onClose }) {
-  const modalRef = useRef(null);
+const DesktopModal = ({ offre }) => {
+  const modalStyle = {
+    borderRadius: '20px', 
+    boxShadow: '0 0 20px rgba(0, 0, 0, 0.3)', 
+  };
 
-  const handleOverlayClick = useCallback((e) => {
-    if (modalRef.current && !modalRef.current.contains(e.target)) {
-      onClose();
-    }
-  }, [onClose]);
+  const titleStyle = {
+    borderColor: '#000091',
+    color: '#000091',
+    boxShadow: '0 8px 16px rgba(0, 0, 145, 0.4)',
+    marginBottom: '8px',
+  };
 
-  useEffect(() => {
-    if (isOpen) {
-      document.addEventListener('mousedown', handleOverlayClick);
-    } else {
-      document.removeEventListener('mousedown', handleOverlayClick);
-    }
+  const descriptionStyle = {
+    borderColor: '#000091',
+    color: '#000000',
+    boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)',
+    height: '450px',
+    marginTop: '36px',
+  };
 
-    return () => {
-      document.removeEventListener('mousedown', handleOverlayClick);
-    };
-  }, [isOpen, handleOverlayClick]);
+  const applyButtonStyle = {
+    backgroundColor: '#000091',
+    color: '#ffffff',
+    padding: '10px 20px',
+    fontSize: '16px',
+    borderRadius: '25px',
+    cursor: 'pointer',
+    marginTop: '16px',
+  };
 
-  const modalClass = isOpen ? 'fixed inset-0 z-50 opacity-100 ' : 'fixed inset-0 z-50 opacity-0 invisible';
+  const handleApplyClick = () => {
+    console.log('Postuler à cette offre');
+  };
 
   return (
-    <div>
-      <div
-        className={modalClass}
-        style={{ transition: 'opacity 0.3s' }}
-      >
-        <div className="fixed inset-0 flex items-center justify-center bg-black opacity-50" onClick={onClose}></div>
-        <div
-          ref={modalRef}
-          className={`fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-8 shadow-md rounded-lg max-w-screen-sm flex flex-col justify-between transition-transform sm:w-full w-full h-full `}
-          style={{
-            maxHeight: '95vh',
-            overflowY: 'auto',
-          }}
-        >
-          <h2 className="text-2xl font-bold text-center mb-6" style={{ color: '#000091' }}> 
-            {offre.titre}
-          </h2>
-          <div className="description text-lg mb-6">
-            {offre.description}
-          </div>
-          <div className="flex justify-between">
-    
-          <button
-            onClick={onClose}
-            className="bg-blue-dark text-white mt-2 px-6 py-3 rounded-md self-center"
-          >
-            Postuler
-          </button>
-          <button
-            onClick={onClose}
-            className="bg-gray-200 text-black mt-2 px-6 py-3 rounded-md self-center"
-          >
-            ouvrir
-          </button>
-        </div>
-        </div>
+    <div className="fixed top-0 right-0 w-2/5 h-5/6 mt-32 mr-8 p-8 overflow-auto border text-center rounded-md shadow-2xl mb-8">
+    <div className="-ml-8 border-blue-900"></div> 
+    <div style={modalStyle}>
+        </div>     
+      <div style={titleStyle} className="bg-white p-4 rounded-md mx-auto w-5/6">
+        <h2 className="text-xl mt-0">{offre.titre}</h2>
       </div>
+      <div style={descriptionStyle} className="bg-white p-4 rounded-md mx-auto w-5/6">
+        <p className="text-lg mt-0">{offre.description}</p>
+      </div>
+      <button style={applyButtonStyle} onClick={handleApplyClick}>
+        Postuler à cette offre
+      </button>
     </div>
   );
-}
+};
 
 export default DesktopModal;
