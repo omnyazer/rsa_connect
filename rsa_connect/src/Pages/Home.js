@@ -66,18 +66,22 @@ function Home() {
 
   const [selectedOffreIndex, setSelectedOffreIndex] = useState(null);
   const [isDesktopView, setIsDesktopView] = useState(false);
+  const [isTabletView, setIsTabletView] = useState(false);
   const [showDesktopModal, setShowDesktopModal] = useState(true);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsDesktopView(window.innerWidth > 768);
+      setIsDesktopView(window.innerWidth > 1024);
+      setIsTabletView(window.innerWidth <= 1024);
     };
-
+  
     window.addEventListener('resize', handleResize);
     handleResize();
+  
 
-    // Mettez à jour selectedOffreIndex pour afficher la première offre par défaut
-    setSelectedOffreIndex(offres.length > 0 ? offres[0].id : null);
+    if (offres.length > 0 && selectedOffreIndex === null) {
+      setSelectedOffreIndex(offres[0].id);
+    }    
 
     return () => {
       window.removeEventListener('resize', handleResize);
@@ -89,7 +93,7 @@ function Home() {
     const index = updatedOffres.findIndex((offre) => offre.id === id);
     updatedOffres[index].description = newDescription;
     setOffres(updatedOffres);
-  };
+  }; 
 
   const updateTitle = (id, newTitle) => {
     const updatedOffres = [...offres];
@@ -105,8 +109,8 @@ function Home() {
     setOffres(updatedOffres);
   };
 
-  const selectOffre = (index) => {
-    setSelectedOffreIndex(index);
+  const selectOffre = (id) => {
+    setSelectedOffreIndex(id);
   };
 
   const removeOffre = (id) => {
@@ -137,9 +141,10 @@ function Home() {
   };
 
   const handleOpenDesktopModal = (offre) => {
-    // Utilisez l'ID de l'offre directement
-    setSelectedOffreIndex(offre.id);
-    setShowDesktopModal(true);
+    if (offre) {
+      setSelectedOffreIndex(offre.id);
+      setShowDesktopModal(true);
+    }
   };
   
 
@@ -147,7 +152,7 @@ function Home() {
     <div className="home-container">
       <Header />
       <div className="flex">
-        <div className="w-full md:w-1/2">
+        <div className={`w-full ${isTabletView ? '' : 'md:w-1/2'}`}>
           <VerticalSwipe
             data={offres}
             updateDescription={updateDescription}
@@ -158,8 +163,8 @@ function Home() {
           />
         </div>
 
-        {isDesktopView && (
-          <div className="w-1/2 border-l-2  border-blue-900">
+        {isDesktopView && window.innerWidth > 1024 && (
+          <div className="w-1/2 border-l-2 border-blue-900">
             {showDesktopModal && (
               <DesktopModal
                 offre={offres.find((o) => o.id === selectedOffreIndex)}

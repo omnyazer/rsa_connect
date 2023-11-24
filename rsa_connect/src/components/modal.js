@@ -25,10 +25,7 @@ function NewModal({ isOpen, offre, onClose }) {
 
   return (
     <div>
-      <div
-        className={modalClass}
-        style={{ transition: 'opacity 0.3s' }}
-      >
+      <div className={modalClass} style={{ transition: 'opacity 0.3s' }}>
         <div className="fixed inset-0 flex items-center justify-center bg-black opacity-50" onClick={onClose}></div>
         <div
           ref={modalRef}
@@ -38,27 +35,26 @@ function NewModal({ isOpen, offre, onClose }) {
             overflowY: 'auto',
           }}
         >
-          <h2 className="text-2xl font-bold text-center mb-6" style={{ color: '#000091' }}> 
+          <h2 className="text-2xl font-bold text-center mb-6" style={{ color: '#000091' }}>
             {offre.titre}
           </h2>
-          <div className="description text-lg mb-6">
+          <div className="text-lg mb-6">
             {offre.description}
           </div>
           <div className="flex justify-between">
-    
-          <button
-            onClick={onClose}
-            className="bg-blue-dark text-white mt-2 px-6 py-3 rounded-md self-center"
-          >
-            Postuler
-          </button>
-          <button
-            onClick={onClose}
-            className="bg-gray-200 text-black mt-2 px-6 py-3 rounded-md self-center"
-          >
-            Fermer
-          </button>
-        </div>
+            <button
+              onClick={onClose}
+              className="bg-blue-dark text-white mt-2 px-6 py-3 rounded-md self-center"
+            >
+              Postuler
+            </button>
+            <button
+              onClick={onClose}
+              className="bg-gray-200 text-black mt-2 px-6 py-3 rounded-md self-center"
+            >
+              Fermer
+            </button>
+          </div>
         </div>
       </div>
     </div>

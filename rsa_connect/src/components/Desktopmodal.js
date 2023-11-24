@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+
 
 const DesktopModal = ({ offre }) => {
   const modalStyle = {
@@ -31,9 +32,12 @@ const DesktopModal = ({ offre }) => {
     marginTop: '16px',
   };
 
+  useEffect(() => {console.log(`offre:${JSON.stringify(offre)}`)},[offre])
+
   const handleApplyClick = () => {
     console.log('Postuler à cette offre');
   };
+
 
   return (
     <div className="fixed top-0 right-0 w-2/5 h-5/6 mt-32 mr-8 p-8 overflow-auto border text-center rounded-md shadow-2xl mb-8">

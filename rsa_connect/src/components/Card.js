@@ -6,11 +6,18 @@ import TitreOffre from './TitreOffre';
 import EntrepriseOffre from './EntrepriseOffre';
 import DescriptionOffre from './DescriptionOffre';
 
-function Card({ offre, onDescriptionChange, onTitleChange, onNameChange, onOpenDesktopModal, isDesktopView }) {
+function Card({
+  offre,
+  onDescriptionChange,
+  onTitleChange,
+  onNameChange,
+  onOpenDesktopModal,
+  isDesktopView,
+}) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showCopyMessage, setShowCopyMessage] = useState(false);
 
-  let NewModal; 
+  let NewModal;
 
   if (typeof window !== 'undefined' && window.innerWidth <= 768) {
     NewModal = require('./modal').default;
@@ -24,25 +31,19 @@ function Card({ offre, onDescriptionChange, onTitleChange, onNameChange, onOpenD
     setIsModalOpen(false);
   };
 
-  const cardStyle = {
-    maxHeight: 'auto',
-    minHeight: isDesktopView ? '30vh' : undefined,
-  };
-
   const handleOpenDesktopModal = () => {
     if (isDesktopView) {
-      onOpenDesktopModal(offre.id);
+      onOpenDesktopModal(offre);
     } else {
-      openModal(); 
+      openModal();
     }
   };
-  
 
   const handleDescriptionChange = (newDescription) => {
-    onDescriptionChange(offre.id, newDescription);
+    onDescriptionChange(newDescription, offre.id);
+    console.log(offre.id, newDescription)
   };
-  
-  
+
   const handleTitleChange = (newTitle) => {
     onTitleChange(newTitle);
   };
@@ -74,8 +75,23 @@ function Card({ offre, onDescriptionChange, onTitleChange, onNameChange, onOpenD
     }
   };
 
+  const isTablet = window.innerWidth <= 1024; // Define isTablet here
+  
+  const cardStyle = {
+    maxHeight: 'auto',
+    minHeight: isTablet ? '50vh' : isDesktopView ? '20vh' : undefined,
+    width: isTablet ? '80%' : '80%',
+    margin: '0 0 70px 0',
+    maxWidth: '768px',
+    borderRadius: '20px', 
+    boxShadow: '20px 16px 16px rgba(0, 0, 0, 0.1)',
+  };
+
   return (
-    <div className="min-h-[70vh] relative card p-4 border border-gray-300 rounded mb-6 shadow-sm max-w-xs mx-auto mx-auto tablet:max-w-md lg:w-2/5 xl:w-4/5 lg:float-left  lg:max-w-xl xl:max-w-2xl mb-28" style={cardStyle}>
+    <div
+      className="min-h-[70vh] relative card p-4 border border-gray-300 rounded mb-6 shadow-sm mx-auto mb-28"
+      style={cardStyle}
+    >
       <img
         src={FavoriteIcon}
         alt="Favorite Icon"
@@ -83,15 +99,21 @@ function Card({ offre, onDescriptionChange, onTitleChange, onNameChange, onOpenD
       />
       <FontAwesomeIcon
         icon={faShare}
-        className={`absolute bottom-1 right-2 w-6 h-6 text-gray-500 cursor-pointer ${showCopyMessage ? 'text-green-500' : ''}`}
+        className={`absolute bottom-1 right-2 w-6 h-6 text-gray-500 cursor-pointer ${
+          showCopyMessage ? 'text-green-500' : ''
+        }`}
         onClick={handleShareClick}
       />
       <div className="mt-6">
         <TitreOffre titre={offre.titre} onTitleChange={handleTitleChange} />
       </div>
-      <DescriptionOffre description={offre.description} onDescriptionChange={handleDescriptionChange} onClick={handleOpenDesktopModal} />
+      <DescriptionOffre
+        description={offre.description}
+        onDescriptionChange={handleDescriptionChange}
+        onClick={handleOpenDesktopModal}
+      />
       <EntrepriseOffre name={offre.name} onNameChange={handleNameChange} />
-            {NewModal && <NewModal isOpen={isModalOpen} offre={offre} onClose={closeModal} />}
+      {NewModal && <NewModal isOpen={isModalOpen} offre={offre} onClose={closeModal} />}
 
       {showCopyMessage && (
         <div className="absolute top-1 right-2 bg-green-500 text-white px-2 py-1 rounded shadow">
