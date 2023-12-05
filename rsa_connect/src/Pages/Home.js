@@ -147,9 +147,10 @@ function Home() {
     }
   };
   
+  
 
   return (
-    <div className="home-container">
+    <div className="home-container ">
       <Header />
       <div className="flex">
         <div className={`w-full ${isTabletView ? '' : 'md:w-1/2'}`}>

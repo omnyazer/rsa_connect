@@ -13,6 +13,7 @@ function Card({
   onNameChange,
   onOpenDesktopModal,
   isDesktopView,
+  onOpenTabletModal, 
 }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showCopyMessage, setShowCopyMessage] = useState(false);
@@ -23,6 +24,15 @@ function Card({
     NewModal = require('./modal').default;
   }
 
+
+const handleOpenDesktopModal = () => {
+  if (isDesktopView) {
+    onOpenDesktopModal(offre);
+  } else {
+    onOpenTabletModal(offre);
+  }
+};
+
   const openModal = () => {
     setIsModalOpen(true);
   };
@@ -31,13 +41,7 @@ function Card({
     setIsModalOpen(false);
   };
 
-  const handleOpenDesktopModal = () => {
-    if (isDesktopView) {
-      onOpenDesktopModal(offre);
-    } else {
-      openModal();
-    }
-  };
+
 
   const handleDescriptionChange = (newDescription) => {
     onDescriptionChange(newDescription, offre.id);
@@ -56,6 +60,7 @@ function Card({
     copyToClipboard();
   };
 
+  
   const copyToClipboard = async () => {
     try {
       const textToCopy = offre.lienDeLoffre;
@@ -83,45 +88,48 @@ function Card({
     width: isTablet ? '80%' : '80%',
     margin: '0 0 70px 0',
     maxWidth: '768px',
-    borderRadius: '20px', 
-    boxShadow: '20px 16px 16px rgba(0, 0, 0, 0.1)',
+    borderRadius: '0px', 
+    boxShadow: '2px 16px 16px rgba(0, 0, 0, 0.1)',
+    position: isModalOpen ? 'fixed' : 'relative', // Fix position when modal is open
+    zIndex: isModalOpen ? 1000 : 0, // Set highe
   };
 
   return (
     <div
-      className="min-h-[70vh] relative card p-4 border border-gray-300 rounded mb-6 shadow-sm mx-auto mb-28"
-      style={cardStyle}
-    >
-      <img
+    className={`min-h-[70vh] relative card border border-gray-300 rounded mb-6 shadow-sm mx-auto mb-28 ${isModalOpen ? 'modal-open' : ''}`}
+    style={cardStyle}
+  >
+       {/* <img
         src={FavoriteIcon}
         alt="Favorite Icon"
         className="absolute top-2 right-2 w-6 h-6 text-red-500"
-      />
-      <FontAwesomeIcon
-        icon={faShare}
-        className={`absolute bottom-1 right-2 w-6 h-6 text-gray-500 cursor-pointer ${
-          showCopyMessage ? 'text-green-500' : ''
-        }`}
-        onClick={handleShareClick}
-      />
-      <div className="mt-6">
-        <TitreOffre titre={offre.titre} onTitleChange={handleTitleChange} />
-      </div>
-      <DescriptionOffre
-        description={offre.description}
-        onDescriptionChange={handleDescriptionChange}
-        onClick={handleOpenDesktopModal}
-      />
-      <EntrepriseOffre name={offre.name} onNameChange={handleNameChange} />
-      {NewModal && <NewModal isOpen={isModalOpen} offre={offre} onClose={closeModal} />}
-
-      {showCopyMessage && (
-        <div className="absolute top-1 right-2 bg-green-500 text-white px-2 py-1 rounded shadow">
-          Lien copié!
-        </div>
-      )}
+      /> */}
+       <FontAwesomeIcon
+      icon={faShare}
+      className={`absolute bottom-2 right-2 w-6 h-6 text-gray-500 cursor-pointer ${
+        showCopyMessage ? 'text-green-500' : ''
+      }`}
+      onClick={handleShareClick}
+      style={{ zIndex: 1 }} // Ensure FontAwesomeIcon is above the message
+    />
+    <div className="mt-0">
+      <TitreOffre titre={offre.titre} onTitleChange={handleTitleChange} />
     </div>
-  );
+    <DescriptionOffre
+      description={offre.description}
+      onDescriptionChange={handleDescriptionChange}
+      onClick={handleOpenDesktopModal}
+    />
+    <EntrepriseOffre name={offre.name} onNameChange={handleNameChange} />
+    {NewModal && <NewModal isOpen={isModalOpen} offre={offre} onClose={closeModal} />}
+
+    {showCopyMessage && (
+      <div className="absolute top-1 right-2 bg-orange-pale text-white px-2 py-1 rounded shadow">
+        Lien copié!
+      </div>
+    )}
+  </div>
+);
 }
 
 export default Card;

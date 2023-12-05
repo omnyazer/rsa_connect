@@ -2,14 +2,15 @@ import React from 'react';
 import TextDescriptionInput from './TextDescriptionInput';
 
 function DescriptionOffre({ onDescriptionChange, onClick, offreId }) {
-  const isTablet = window.innerWidth <= 1024; 
+  const isTablet = window.innerWidth <= 1024;
 
   return (
-    <div className={`bg-white p-10 rounded-md shadow-md my-4 text-center ${isTablet ? 'min-h-[50vh]' : 'min-h-[20vh] md:min-h-[20vh]'}`} onClick={onClick}>
+    <div className={`bg-white p-10 rounded-md shadow-md my-4 text-center flex flex-col items-center justify-center ${isTablet ? 'min-h-[50vh] text-gray-800' : 'min-h-[20vh] md:min-h-[20vh] text-gray-500'}`} onClick={onClick}>
       <TextDescriptionInput
         description={null}
         onDescriptionChange={onDescriptionChange}
         placeholder="Description de l'offre"
+        style={{ color: isTablet ? '#333' : '#888' }} // Utilisez une nuance de gris plus foncée sur tablette et plus claire sur ordinateur
       />
     </div>
   );

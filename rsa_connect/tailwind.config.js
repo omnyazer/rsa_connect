@@ -5,6 +5,7 @@ module.exports = {
     extend: {
       backgroundColor: {
         'blue-dark': '#000091',
+        'orange-pale': '#febf80',
       },
       screens: {
         'desktop': '1024px', // Ajoutez une nouvelle taille d'écran pour la version de bureau
